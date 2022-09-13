@@ -1,0 +1,6 @@
+$adGroup = "CloudBanshees" 
+$user= $_.username
+Import-Csv "C:\temp\CloudBanshees3.csv" | 
+ForEach-Object { $user = $_."username" 
+Add-ADGroupMember $adGroup $user;
+Write-Host "_ " $user " added to " $adGroup }
