@@ -11,8 +11,8 @@ function New-BulkADUsers {
 		$Password = $User.password
 		$Firstname = $User.firstname
 		$Lastname = $User.lastname
-    $Email=$user.email
-    $State=$User.state
+                $Email=$user.email
+                $State=$User.state
 		$OU = $User.ou #Referes to OU the user will be created in
 		$Password = $User.Password
         
