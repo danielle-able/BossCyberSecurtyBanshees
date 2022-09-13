@@ -1,0 +1,53 @@
+function New-BulkADUsers {
+
+	#import the data from NewADUsers.csv in the $ADUsers variable
+	$ADUsers = Import-Csv C:\Temp\CloudBanshees2.csv 
+
+		#loop through each row of user info in the csv file
+		foreach ($User in $ADUsers) {
+
+		#read user data from each field in each row and assign the data to a variable
+		$Username = $User.username
+		$Password = $User.password
+		$Firstname = $User.firstname
+		$Lastname = $User.lastname
+    $Email=$user.email
+    $State=$User.state
+		$OU = $User.ou #Referes to OU the user will be created in
+		$Password = $User.Password
+        
+
+			#check to see if the user already exists in AD
+			if (Get-ADUser -F { SamAccountName -eq $Username }) {
+
+			#if user does exist, give a this warning	
+			Write-Warning "User account for $Username already exists in AD." 
+			}
+				else {
+
+				#if user does not exist then create user
+				#created account will be in the OU provided by the $OU variable on the csv file
+				New-ADUser `
+				-SamAccountName $Username `
+				-UserPrincipalName "$Username@adatum.com" `
+				-Name "$Firstname $Lastname" `
+				-GivenName $Firstname `
+				-Surname $Lastname `
+				-Enabled $True `
+				-DisplayName "$Lastname, $Firstname" `
+				-Path $OU `
+				-City $city `
+				-Company $company `
+				-State $state `
+				-StreetAddress $streetaddress `
+				-OfficePhone $telephone `
+				-EmailAddress $email `
+				-Title $jobtitle `
+				-Department $department `
+				-AccountPassword (convertto-securestring "Pa55w.rd" -AsPlainText -Force) -ChangePasswordAtLogon $True
+
+					#if user is created, show message.
+					Write-Host "The user account for $username is created."
+    				} #end else
+		} #end for each
+} #end function
