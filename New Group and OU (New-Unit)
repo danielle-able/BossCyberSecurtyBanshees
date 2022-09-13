@@ -1,0 +1,10 @@
+Function New-Unit 
+{
+[CmdletBinding()]
+    Param(
+            [Parameter(Mandatory=$True)][String]$Name
+          )
+
+New-ADOrganizationalUnit -Name $Name -Path "DC=Adatum,DC=com"
+New-ADGroup -Name $Name  -GroupScope Global -GroupCategory Security -Path "OU=$Name,DC=Adatum,DC=com"
+}
