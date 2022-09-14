@@ -1,0 +1,13 @@
+function Install-DHCPConfig {
+ 
+#Install DHCP service
+Install-WindowsFeature -Name 'DHCP' -IncludeManagementTools
+
+#Adding DHCP Scope
+Add-DhcpServerV4Scope -Name "CloudBansheeScope" -StartRange 172.16.30.1 -EndRange 172.16.30.254 -SubnetMask 255.255.255.0
+
+#RelayAgent Configuration
+Install-WindowsFeature -Name 'RemoteAccess' -IncludeManagementTools -ComputerName LON-SVR1
+#Ensure that firewall is off on target workstations 
+
+}
